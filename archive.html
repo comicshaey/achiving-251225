@@ -11,7 +11,7 @@
     <div class="wrap topbar__inner">
       <div class="brand">
         <div class="brand__title">기록관</div>
-        <div class="brand__sub">날짜 정렬 + 태그 색인</div>
+        <div class="brand__sub">공용 JSON 기반(전 기기 동일) + 임시 편집(draft)</div>
       </div>
       <nav class="nav">
         <a class="nav__link" href="./index.html">홈</a>
@@ -25,15 +25,22 @@
   <main class="wrap">
     <section class="panel">
       <div class="panel__header">
-        <h2 class="panel__title">기록 추가</h2>
+        <h2 class="panel__title">기록 추가(임시)</h2>
         <div class="panel__actions">
-          <button class="btn" id="btnExport">내보내기(JSON)</button>
+          <button class="btn" id="btnReloadShared">공용 JSON 새로고침</button>
+          <button class="btn" id="btnExportMerged">내보내기(병합 JSON)</button>
           <label class="btn btn--ghost">
-            가져오기
-            <input type="file" id="fileImport" accept="application/json" hidden />
+            가져오기(임시)
+            <input type="file" id="fileImportDraft" accept="application/json" hidden />
           </label>
-          <button class="btn btn--danger" id="btnClear">전체 삭제</button>
+          <button class="btn btn--danger" id="btnClearDraft">임시편집 전체 삭제</button>
         </div>
+      </div>
+
+      <div class="hint">
+        <b>운영 원칙:</b> 전 기기 동일 반영은 <code>/data/archive-records.json</code> 수정(커밋) 기준입니다.
+        화면에서 추가/수정한 내용은 <b>이 기기 임시편집(draft)</b>으로 저장됩니다.
+        최종 반영은 <b>내보내기(병합 JSON)</b> → GitHub JSON 교체 커밋으로 처리하세요.
       </div>
 
       <form id="recordForm" class="form">
@@ -57,8 +64,9 @@
           <textarea class="textarea" id="recBody" rows="6" placeholder="메모/감상/학습 내용"></textarea>
         </div>
 
-        <div class="form__row form__row--end">
-          <button class="btn btn--primary" type="submit">저장</button>
+        <div class="form__row form__row--end gap">
+          <button class="btn btn--ghost" type="button" id="btnCancelEdit">수정 취소</button>
+          <button class="btn btn--primary" type="submit">임시 저장</button>
         </div>
       </form>
     </section>
@@ -72,6 +80,11 @@
             <option value="desc">최신순</option>
             <option value="asc">오래된순</option>
           </select>
+          <select class="select" id="viewMode">
+            <option value="merged">공용+임시(기본)</option>
+            <option value="shared">공용만</option>
+            <option value="draft">임시만</option>
+          </select>
         </div>
       </div>
 
@@ -82,7 +95,7 @@
 
   <footer class="footer">
     <div class="wrap footer__inner">
-      <span class="muted">기록 데이터: 브라우저 localStorage</span>
+      <span class="muted">공용 원본: /data/archive-records.json · 임시편집: localStorage</span>
     </div>
   </footer>
 
