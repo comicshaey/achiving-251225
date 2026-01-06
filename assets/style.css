@@ -272,3 +272,35 @@ code{
   text-align:right;
   white-space: nowrap;
 }
+
+/* =========================
+   FullCalendar 일정 줄바꿈
+   ========================= */
+
+/* 월간(dayGrid) 일정 */
+.fc .fc-daygrid-event .fc-event-title {
+  white-space: normal !important;   /* 줄바꿈 허용 */
+  overflow: visible !important;
+  word-break: break-word;           /* 긴 단어도 줄바꿈 */
+  line-height: 1.35;
+}
+
+/* 주간/일간(timeGrid) 일정 */
+.fc .fc-timegrid-event .fc-event-title {
+  white-space: normal !important;
+  overflow: visible !important;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+/* 일정 높이 자동 확장 */
+.fc .fc-daygrid-event {
+  align-items: flex-start;          /* 여러 줄 위쪽 정렬 */
+}
+
+/* 모바일에서 더 숨 막히지 않게 */
+@media (max-width: 600px) {
+  .fc .fc-event-title {
+    font-size: 13px;
+  }
+}
